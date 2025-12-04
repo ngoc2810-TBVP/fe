@@ -56,7 +56,7 @@ function CartClient() {
         setCart((prev) => ({
           ...prev,
           items: prev.items.map((i) =>
-            i.product_id._id === productId ? { ...i, quantity: value } : i
+            i.product_id?._id === productId ? { ...i, quantity: value } : i
           ),
         }));
       } else message.error(data.message || "Cập nhật thất bại!");
@@ -110,14 +110,14 @@ function CartClient() {
       render: (_, record) => (
         <div className="cart-product">
           <img
-            src={record.product_id.thumbnail}
+            src={record.product_id?.thumbnail}
             alt=""
             className="cart-product-img"
           />
           <div className="cart-product-info">
-            <div className="cart-product-title">{record.product_id.title}</div>
+            <div className="cart-product-title">{record.product_id?.title}</div>
             <div className="cart-product-price">
-              {record.product_id.price.toLocaleString("vi-VN")}₫
+              {record.product_id?.price.toLocaleString("vi-VN")}₫
             </div>
           </div>
         </div>
@@ -134,10 +134,12 @@ function CartClient() {
             min={1}
             value={quantity}
             className="qty-input"
-            onChange={(v) => handleUpdateQuantity(record.product_id._id, v)}
+            onChange={(v) => handleUpdateQuantity(record.product_id?._id, v)}
           />
           <span className="cart-product-total">
-            <b>{(record.product_id.price * quantity).toLocaleString("vi-VN")}₫</b>
+            <b>
+              {(record.product_id?.price * quantity).toLocaleString("vi-VN")}₫
+            </b>
           </span>
         </div>
       ),
@@ -149,7 +151,7 @@ function CartClient() {
       render: (_, record) => (
         <Popconfirm
           title="Xóa sản phẩm này?"
-          onConfirm={() => handleRemoveItem(record.product_id._id)}
+          onConfirm={() => handleRemoveItem(record.product_id?._id)}
         >
           <Button danger>Xóa</Button>
         </Popconfirm>
@@ -159,7 +161,7 @@ function CartClient() {
 
   const calculateTotal = () => {
     return cart.items.reduce((total, item) => {
-      return total + item.product_id.price * item.quantity;
+      return total + item.product_id?.price * item.quantity;
     }, 0);
   };
 
@@ -174,7 +176,7 @@ function CartClient() {
           <Table
             dataSource={cart.items}
             columns={columns}
-            rowKey={(r) => r.product_id._id}
+            rowKey={(r) => r.product_id?._id}
             pagination={false}
             className="cart-table"
           />
