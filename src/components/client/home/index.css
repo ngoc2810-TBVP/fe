@@ -253,6 +253,7 @@
 /* Các sản phẩm trong từng danh mục */
 .category {
   margin-bottom: 40px;
+  margin-top: 40px !important;
   position: relative;
   left: 5%;
 }

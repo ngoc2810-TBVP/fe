@@ -93,33 +93,33 @@ function HomeClient({ permissions, permission }) {
             {categoriesWithProducts.length > 0 ? (
               categoriesWithProducts.map((categoryData, index) => {
                 // Kiểm tra categoryData trước khi sử dụng
-                if (!categoryData || !categoryData.category) return null;
+                if (!categoryData || !categoryData.categories) return null;
 
                 return (
                   <div key={index} className="category">
                     {/* Kiểm tra xem danh mục cha có title không */}
                     <div>
                       <div className="subCategories">
-                        {categoryData.category &&
-                        categoryData.category.length > 0 ? (
-                          categoryData.category.map((subCategory) => (
+                        {categoryData.categories &&
+                        categoryData.categories.length > 0 ? (
+                          categoryData.categories.map((subCategory) => (
                             <>
                               <div className="span-cate">
-                                {subCategory?.title && (
+                                {subCategory?._doc?.title && (
                                   <span className="parent-all">
-                                    {subCategory?.title || ""}
+                                    {subCategory?._doc?.title || ""}
                                   </span>
                                 )}
                                 {subCategory?.title && (
                                   <span className="subcategory">
-                                    {subCategory?.title}
+                                    {subCategory?._doc?.title}
                                   </span>
                                 )}
                               </div>
                             </>
                           ))
                         ) : (
-                          <div>e</div>
+                          <div></div>
                         )}
                       </div>
                     </div>
