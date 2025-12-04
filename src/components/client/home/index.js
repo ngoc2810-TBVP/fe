@@ -22,9 +22,8 @@ function HomeClient({ permissions, permission }) {
         const json = await res.json();
 
         console.log("dataJson: ", json);
-        if (json.code === 200) {
-          setCategoriesWithProducts(json.data); // Lưu dữ liệu vào state
-        }
+        setCategoriesWithProducts(json.data); // Lưu dữ liệu vào state
+        console.log("categoriesWithProducts: ", categoriesWithProducts);
       } catch (error) {
         setError(error.message);
       }
@@ -67,8 +66,7 @@ function HomeClient({ permissions, permission }) {
           >
             <div className="samsung-slide-full">
               <img
-                // src="https://images.samsung.com/is/image/samsung/assets/vn/offer/megasale/20250909-dday/Top-kv-fs-PC.png?imwidth=768"
-                src="https://autowash.vn/wp-content/uploads/2019/04/175f57f3117cf322aa6d-1-e1587810575905.jpg"
+                src="https://images.samsung.com/is/image/samsung/assets/vn/offer/megasale/20250909-dday/Top-kv-fs-PC.png?imwidth=768"
                 alt="Samsung Slide 1"
               />
             </div>
@@ -95,16 +93,16 @@ function HomeClient({ permissions, permission }) {
             {categoriesWithProducts.length > 0 ? (
               categoriesWithProducts.map((categoryData, index) => {
                 // Kiểm tra categoryData trước khi sử dụng
-                if (!categoryData || !categoryData.categories) return null;
+                if (!categoryData || !categoryData.category) return null;
 
                 return (
                   <div key={index} className="category">
                     {/* Kiểm tra xem danh mục cha có title không */}
                     <div>
                       <div className="subCategories">
-                        {categoryData.categories &&
-                        categoryData.categories.length > 0 ? (
-                          categoryData.categories.map((subCategory) => (
+                        {categoryData.category &&
+                        categoryData.category.length > 0 ? (
+                          categoryData.category.map((subCategory) => (
                             <>
                               <div className="span-cate">
                                 {subCategory?.title && (
@@ -112,16 +110,16 @@ function HomeClient({ permissions, permission }) {
                                     {subCategory?.title || ""}
                                   </span>
                                 )}
-                                {subCategory?._doc?.title && (
+                                {subCategory?.title && (
                                   <span className="subcategory">
-                                    {subCategory?._doc?.title}
+                                    {subCategory?.title}
                                   </span>
                                 )}
                               </div>
                             </>
                           ))
                         ) : (
-                          <div>No subcategories available</div>
+                          <div>e</div>
                         )}
                       </div>
                     </div>
