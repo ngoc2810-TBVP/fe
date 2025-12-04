@@ -101,9 +101,7 @@ function DetailProductClient() {
   };
 
   const handleAddToCart = async () => {
-    if (quantity < 1) return message.error("Số lượng không hợp lệ!");
-
-    const token = Cookies.get("token");
+    const token = Cookies.get("token"); // Lấy token từ cookie
     if (!token) return message.error("Bạn phải đăng nhập!");
 
     try {
@@ -111,27 +109,32 @@ function DetailProductClient() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Gửi token vào header
         },
         body: JSON.stringify({
-          product_id: product._id,
+          product_id: product._id, // Đảm bảo product._id là ObjectId hợp lệ
           quantity,
         }),
       });
 
       const result = await response.json();
-      if (result.status === "success")
+      console.log("API Response:", result); // Log kết quả response
+
+      if (response.ok && result.status === "success") {
         message.success(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`);
-      else message.error(result.message);
+      } else {
+        message.error(result.message || "Có lỗi xảy ra khi thêm vào giỏ hàng!");
+      }
     } catch (error) {
-      message.error("Có lỗi khi thêm giỏ hàng!");
+      console.error("Error:", error); // Log lỗi frontend
+      message.error("Có lỗi khi thêm giỏ hàng!"); // Thông báo lỗi chung
     }
   };
 
   return (
     <div className="detail-page">
       {/* 🔥 TITLE */}
-      <div className="breadcrumb">
+      <div className="">
         <span className="abc" style={{ cursor: "pointer" }}>
           Trang chủ
         </span>
